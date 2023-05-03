@@ -9,3 +9,30 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Company {
+  id String @id
+
+  description String
+
+  address   Address @relation(fields: [addressId], references: [id])
+  addressId String  @unique
+
+  @@map("companies")
+}
+
+model Address {
+  id String @id
+
+  cep          String
+  state        String
+  city         String
+  neighborhood String
+  address      String
+  number       Int
+  complement   String?
+
+  Company Company?
+
+  @@map("addresses")
+}
