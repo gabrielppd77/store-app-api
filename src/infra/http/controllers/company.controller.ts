@@ -3,15 +3,18 @@ import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { CreateCompany } from '@app/use-cases/create-company';
 
 import { CreateCompanyBody } from '@infra/http/dtos/create-company-body';
-import { GetCurrentUser } from '../decorators/get-current-user';
+import { CurrentUser } from '../decorators/current.user';
+
+import { Public } from '../decorators/public.decorator';
 
 @Controller('company')
 export class CompanyController {
   constructor(private createCompany: CreateCompany) {}
 
+  // @Public()
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: CreateCompanyBody, @GetCurrentUser() currentUser) {
+  async create(@Body() body: CreateCompanyBody, @CurrentUser() currentUser) {
     const { addressCompany, company } = body;
 
     console.log({ currentUser });
