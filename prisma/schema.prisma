@@ -13,7 +13,17 @@ datasource db {
 model Company {
   id String @id
 
-  description String
+  userId String @unique
+
+  name        String
+  phone       String
+  description String?
+
+  registrationNumber String @unique
+  businessName       String
+
+  responsibleFullName           String
+  responsibleRegistrationNumber String
 
   address   Address @relation(fields: [addressId], references: [id])
   addressId String  @unique
