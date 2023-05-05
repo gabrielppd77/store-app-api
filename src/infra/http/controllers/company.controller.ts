@@ -1,13 +1,27 @@
-import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+
+import { CurrentUser } from '../decorators/current.user';
 
 import { CreateCompany } from '@app/use-cases/create-company';
+import { GetCompanyByUser } from '@app/use-cases/get-company-by-user';
 
 import { CreateCompanyBodyDTO } from '@infra/http/dtos/create-company-body.dto';
-import { CurrentUser } from '../decorators/current.user';
+
+import { CompanyViewModel } from '../view-models/company.view-model';
 
 @Controller('company')
 export class CompanyController {
-  constructor(private createCompany: CreateCompany) {}
+  constructor(
+    private createCompany: CreateCompany,
+    private getCompanyByUser: GetCompanyByUser,
+  ) {}
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
@@ -53,6 +67,20 @@ export class CompanyController {
       statusCode: HttpStatus.CREATED,
       message: 'Solicitação realizada com sucesso.',
       data: null,
+    };
+  }
+
+  @Get('getCompanyByUser')
+  @HttpCode(HttpStatus.OK)
+  async getCompanyByUserId(@CurrentUser() currentUser: UserPayload) {
+    const company = await this.getCompanyByUser.execute({
+      userId: currentUser.userId,
+    });
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Solicitação realizada com sucesso.',
+      data: company ? CompanyViewModel.toHttp(company) : null,
     };
   }
 }

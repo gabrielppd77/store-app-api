@@ -34,4 +34,16 @@ export class PrismaCompanyRepository implements CompanyRepository {
       },
     });
   }
+
+  async getCompanyByUser(userId: string): Promise<Company | null> {
+    const company = await this.prisma.company.findFirst({
+      where: {
+        userId,
+      },
+    });
+
+    if (!company) return null;
+
+    return PrismaCompanyMapper.toDomain(company);
+  }
 }

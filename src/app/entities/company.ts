@@ -11,7 +11,7 @@ export interface CompanyProps {
   responsibleFullName: string;
   responsibleRegistrationNumber: string;
   addressId: string;
-  address: Address;
+  address?: Address;
 }
 
 export class Company extends Entity<CompanyProps> {
