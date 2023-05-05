@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsOptional,
   Length,
+  Max,
 } from 'class-validator';
 
 class AddressBody {
@@ -22,6 +23,7 @@ class AddressBody {
   @MaxLength(200)
   address: string;
   @IsNumber()
+  @Max(99999)
   number: number;
   @MaxLength(255)
   @IsOptional()
@@ -39,8 +41,10 @@ class CompanyBody {
   @Length(14)
   registrationNumber: string;
   @IsString()
+  @MaxLength(55)
   businessName: string;
   @IsString()
+  @MaxLength(55)
   responsibleFullName: string;
   @Length(11)
   responsibleRegistrationNumber: string;
