@@ -1,50 +1,52 @@
+import { IntersectionType } from '@nestjs/mapped-types';
 import {
   IsString,
-  IsNotEmpty,
   MaxLength,
   IsNumber,
   IsOptional,
+  Length,
 } from 'class-validator';
 
 class AddressBody {
-  @MaxLength(8)
+  @Length(8)
   cep: string;
-  @IsString()
+  @Length(2)
   state: string;
   @IsString()
+  @MaxLength(55)
   city: string;
   @IsString()
+  @MaxLength(55)
   neighborhood: string;
   @IsString()
+  @MaxLength(200)
   address: string;
   @IsNumber()
-  number: string;
+  number: number;
   @MaxLength(255)
   @IsOptional()
   complement?: string;
 }
 
 class CompanyBody {
-  @IsString()
+  @MaxLength(55)
   name: string;
   @MaxLength(11)
   phone: string;
   @MaxLength(255)
-  description: string;
-  @MaxLength(14)
+  @IsOptional()
+  description?: string;
+  @Length(14)
   registrationNumber: string;
   @IsString()
   businessName: string;
   @IsString()
   responsibleFullName: string;
-  @MaxLength(11)
+  @Length(11)
   responsibleRegistrationNumber: string;
 }
 
-export class CreateCompanyBody {
-  @IsNotEmpty()
-  addressCompany: AddressBody;
-
-  @IsNotEmpty()
-  company: CompanyBody;
-}
+export class CreateCompanyBodyDTO extends IntersectionType(
+  AddressBody,
+  CompanyBody,
+) {}

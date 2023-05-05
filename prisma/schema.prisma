@@ -25,7 +25,7 @@ model Company {
   responsibleFullName           String
   responsibleRegistrationNumber String
 
-  address   Address @relation(fields: [addressId], references: [id])
+  address   Address @relation(fields: [addressId], references: [id], onDelete: Cascade)
   addressId String  @unique
 
   @@map("companies")

@@ -6,7 +6,7 @@ export interface AddressProps {
   city: string;
   neighborhood: string;
   address: string;
-  number: string;
+  number: number;
   complement?: string;
 }
 

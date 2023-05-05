@@ -16,26 +16,10 @@ type Response = void;
 export class CreateCompany {
   constructor(private companyRepository: CompanyRepository) {}
   async execute(request: Request): Promise<Response> {
-    const adressCompany = new Address({
-      cep: request.addressCompany.cep,
-      state: request.addressCompany.state,
-      city: request.addressCompany.city,
-      neighborhood: request.addressCompany.neighborhood,
-      address: request.addressCompany.address,
-      number: request.addressCompany.number,
-      complement: request.addressCompany.complement,
-    });
+    const adressCompany = new Address(request.addressCompany);
 
     const newCompany = new Company({
-      userId: request.company.userId,
-      name: request.company.name,
-      phone: request.company.phone,
-      description: request.company.description,
-      registrationNumber: request.company.registrationNumber,
-      businessName: request.company.businessName,
-      responsibleFullName: request.company.responsibleFullName,
-      responsibleRegistrationNumber:
-        request.company.responsibleRegistrationNumber,
+      ...request.company,
       addressId: adressCompany.id.toValue(),
       address: adressCompany,
     });
